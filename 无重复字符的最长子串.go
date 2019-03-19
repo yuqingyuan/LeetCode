@@ -1,50 +1,34 @@
 package main
 
+import "fmt"
+
 func lengthOfLongestSubstring(s string) int {
-	var max int
-	start := 0
-	end := start + 1
+	var i, max int
+	m := make(map[byte]int)
 	for {
-		if end > len(s) {
+		if i >= len(s) {
 			break
 		}
-		flag := isUnique(s[start:end])
-		if flag {
-			if end-start > max {
-				max = end - start
+		if index, ok := m[s[i]]; ok {
+			num := len(m)
+			if num > max {
+				max = num
 			}
-			end++
+			m = make(map[byte]int)
+			i = 0
+			s = s[index+1:]
 		} else {
-			if end-start-1 > max {
-				max = end - start - 1
-			}
-			start += 1
-			end = start + 1
+			m[s[i]] = i
+			i++
 		}
+	}
+	if len(m) > max {
+		max = len(m)
 	}
 	return max
 }
 
-func isUnique(s string) bool {
-	flag := true
-	m := make(map[rune]int)
-	for index, v := range s {
-		if len(m) == 0 {
-			m[v] = index
-		} else {
-			if _, ok := m[v]; ok {
-				flag = false
-				break
-			} else {
-				m[v] = index
-				flag = true
-			}
-		}
-	}
-	return flag
-}
-
 func main() {
-	lengthOfLongestSubstring("alqebriavxoo")
+	fmt.Println(lengthOfLongestSubstring("abcabcbb"))
 }
 
