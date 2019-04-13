@@ -15,14 +15,15 @@ func threeSum(nums []int) [][]int {
 
 	for i := 0; i <= len(nums)-3; i++ {
 		if i == 0 || nums[i] != nums[i-1] {
+			if nums[i] > 0 {
+				break
+			}
 			remain := -nums[i]
 			left := i + 1
 			right := len(nums) - 1
 			for left < right {
 				if nums[left]+nums[right] == remain {
-					var temp []int
-					temp = append(temp, nums[i], nums[left], nums[right])
-					res = append(res, temp)
+					res = append(res, []int{nums[i], nums[left], nums[right]})
 					for {
 						left += 1
 						if left >= right || nums[left] != nums[left-1] {
@@ -53,7 +54,6 @@ func threeSum(nums []int) [][]int {
 			}
 		}
 	}
-
 	return res
 }
 
